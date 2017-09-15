@@ -1,0 +1,21 @@
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_messages %}
+
+
+{%block body%}
+<div class = "container">
+	<div class="wrapper">
+{% csrf_token %}
+		<form method="POST"  class="form-signin" action="" >       
+		    <h3 class="form-signin-heading">Welcome Back! Please Sign In</h3>
+			  <hr class="colorgraph"><br>
+			  
+			  <input type="text" class="form-control" name="username" placeholder="Username" required="" autofocus="" />
+			  <input type="password" class="form-control" name="password" placeholder="Password" required=""/>     		  
+			 
+			  <button class="btn btn-lg btn-primary btn-block"  name="Submit" value="Login" type="submit">Login</button>  			
+		</form>			
+	</div>
+</div>
+{%endblock%}

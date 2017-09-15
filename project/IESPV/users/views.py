@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from .models import RecoveryPassword
+from django.http import HttpResponseRedirect
 
-# Create your views here.
 
 def solicitation_reset_password(request):
 	if request.method == 'GET':
@@ -26,10 +26,15 @@ def url_recovery(request, token):
 	# metodo que troca a senha do usuário
 
 	
-
-
-
-
-
+def attendant_login(request):
+    if request.method == "POST":
+        login_status = make_login(request)
+        if login_status.get('is_logged'):
+            #TODO redirect to user profile
+            return render(request, "^/$")
+        else:
+            return render(request,"users/login.html",context)
+    else:
+        return render(request,"users/login.html")
 
 

@@ -15,7 +15,7 @@ sudo apt-get install -y libpng-dev
 
 
 
-sudo pip3 install -r project/IESPV/requirements.txt
+sudo pip3 install -r project/requirements.txt
 
 #sudo pip3 install --upgrade urllib3
 #sudo apt-get -y install build-essential libssl-dev libffi-dev python3-dev

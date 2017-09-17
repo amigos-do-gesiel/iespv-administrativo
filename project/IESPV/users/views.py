@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from .models import RecoveryPassword
 from django.http import HttpResponseRedirect
-
+from django.contrib.auth.views import login
 
 def solicitation_reset_password(request):
 	if request.method == 'GET':

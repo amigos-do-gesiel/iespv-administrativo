@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class Employee(User):
 
     abstract = True
-    access_level
+    access_level = 0
 
     def register_donator():
         pass
@@ -31,5 +31,5 @@ class Administrator(Employee):
         pass
 
 class Secretary (Employee):
-
+    pass
     #List<Observer> observers: Observer

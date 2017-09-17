@@ -1,4 +1,6 @@
-Django==1.9.8
+django==1.9.8
+flake8
+psycopg2
 django-bootstrap4
 pytest
 pytest-django

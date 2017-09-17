@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from .models import RecoveryPassword
 from django.http import HttpResponseRedirect
-
+from django.contrib.auth.views import login
 
 def solicitation_reset_password(request):
 	if request.method == 'GET':
@@ -25,7 +25,7 @@ def url_recovery(request, token):
 	pass
 	# metodo que troca a senha do usuário
 
-	
+
 def attendant_login(request):
     if request.method == "POST":
         login_status = make_login(request)
@@ -37,4 +37,27 @@ def attendant_login(request):
     else:
         return render(request,"users/login.html")
 
+def make_login(request):
+    form = request.POST
+    username = form.get('username')
+    password = form.get('password')
 
+    user = authenticate(username=username, password=password)
+    is_logged = False
+
+    if user is not None:
+        logger = logging.getLogger(__name__)
+        logger.info(user.__str__() + ' User is logged')
+        login(request, user)
+        message = "Logged"
+
+        is_logged = True
+    else:
+        message = "Incorrect user"
+
+    context = {
+        "is_logged": is_logged,
+        "message": message,
+    }
+
+	return context

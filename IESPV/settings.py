@@ -73,14 +73,14 @@ WSGI_APPLICATION = 'IESPV.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'changeme',
-        'HOST': 'db',
+        #'HOST': 'db'
+        'HOST': '192.168.1.11',
         'PORT': '5432',
     }
 }

@@ -11,6 +11,7 @@
       <form class="configdiv" action="register" method="post">
         <p2>{{falha}}</p2>
         {% csrf_token %}
+        <br>
         <input type="radio" name="employee_type" value="secretary"> Secretária<br>
         <input type="radio" name="employee_type" value="administrator"> Administrador<br>
         <div class="form-group">

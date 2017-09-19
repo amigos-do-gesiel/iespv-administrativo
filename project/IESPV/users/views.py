@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from .models import RecoveryPassword
 from django.http import HttpResponseRedirect
@@ -33,7 +34,7 @@ def attendant_login(request):
             #TODO redirect to user profile
             return render(request, "^/$")
         else:
-            return render(request,"users/login.html",context)
+            return render(request,"users/login.html",login_status)
     else:
         return render(request,"users/login.html")
 
@@ -60,4 +61,4 @@ def make_login(request):
         "message": message,
     }
 
-	return context
+    return context

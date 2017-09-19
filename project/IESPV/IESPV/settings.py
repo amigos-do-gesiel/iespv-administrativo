@@ -48,6 +48,7 @@ INSTALLED_APPS = [
      
     # instaled apps
     'bootstrap4',
+    'pytest',
     'users',
 ]
 

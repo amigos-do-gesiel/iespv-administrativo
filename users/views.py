@@ -34,7 +34,7 @@ def register(request):
         else:
             user = create_administrator(name, phone_number, email, password)
 
-        messages.success(request, 'Usuario registrado com sucesso')
+        user.save()
 
     return render(request, 'index.html')
 

@@ -3,9 +3,10 @@ from django.contrib.auth.models import User
 
 
 class Employee(User):
+    class Meta:
+        abstract = True
 
-    abstract = True
-    access_level = 0
+    phone_number = models.CharField(max_length = 12)
 
     def register_donator():
         pass
@@ -17,6 +18,7 @@ class Employee(User):
         pass
 
 class Administrator(Employee):
+    is_superuser = True
 
     def register_employee():
         pass
@@ -31,5 +33,5 @@ class Administrator(Employee):
         pass
 
 class Secretary (Employee):
-    pass
+    is_superuser = False
     #List<Observer> observers: Observer

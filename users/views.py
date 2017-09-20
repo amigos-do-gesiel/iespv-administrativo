@@ -25,7 +25,7 @@ def register(request):
         #means that the validations have found an error
         if len(validation_status) != 0 :
             return render (request,
-                        'userRegister/register.html',
+                        'usersRegister/register.html',
                         {'falha': validation_status})
 
 

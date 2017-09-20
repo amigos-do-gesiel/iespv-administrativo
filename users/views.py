@@ -32,7 +32,7 @@ def register(request):
         if employee_type == 'secretary':
             user = create_secretary(form)
         else:
-            user = create_administrator(name, phone_number, email, password)
+            user = create_administrator(form)
 
         user.save()
 
@@ -45,7 +45,7 @@ def create_secretary(form):
                     password=form.get('password'))
     return user
 
-def create_administrator(name, phone_number, email, password):
+def create_administrator(form):
     user = Administrator (first_name = form.get('name'),
                         phone_number=form.get('phone_number'),
                         username=form.get('email'),

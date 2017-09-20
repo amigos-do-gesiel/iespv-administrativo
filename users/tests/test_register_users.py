@@ -16,6 +16,10 @@ class TestRegisterUsers:
         self.user1 = SecretaryFactory()
         self.user2 = AdministratorFactory()
 
+    def test_index_get(self,client):
+        response = client.get('/users')
+        assert response.status_code == 200
+
     def test_register_user_get(self,client):
 
         response = client.get('/users/register/')
@@ -31,4 +35,4 @@ class TestRegisterUsers:
 
         response = client.post('/users/register/',{'employee_type':'admin','name':'Marco', 'phone_number':'32','email':'marco@gmail.com', 'password':'123456789', 'confirmPassword':'123456789'}, follow = True)
 
-        recover = Secretary.objects.get(first_name='Marco')
+        recover = Administrator.objects.get(first_name='Marco')

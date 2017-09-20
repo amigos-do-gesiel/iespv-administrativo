@@ -14,7 +14,7 @@ def index(request):
 #@user_passes_test(lambda user: user.is_staff, login_url='/accounts/dashboard/')
 def register(request):
     if request.method == "GET":
-        return render(request, 'userRegister/register.html')
+        return render(request, 'usersRegister/register.html')
     else:
         form = request.POST
         employee_type = form.get('employee_type')

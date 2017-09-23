@@ -44,7 +44,7 @@ class TestRecoveryPassWord:
 
     #Test with the wring token
     def test_url_recovery_wrong_token(self, client):
-        response = client.get('/users/recuperar_senha/123', follow=True)
+        response = client.get('/users/recuperar_senha/testtest123123', follow=True)
         assert response.status_code == 200
 
     #Test with the correct token

@@ -1,0 +1,10 @@
+Django==1.9.8
+django-bootstrap4
+unipath
+Pillow
+django-crispy-forms
+pusher
+pytest
+pytest-django
+pytest-cov
+factory_boy

@@ -1,3 +1,5 @@
+#Use only in production
+
 #!/bin/sh
 
 # wait for Postgres to start

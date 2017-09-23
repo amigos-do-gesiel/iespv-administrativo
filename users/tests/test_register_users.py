@@ -17,7 +17,7 @@ class TestRegisterUsers:
         self.user2 = AdministratorFactory()
 
     def test_index_get(self,client):
-        response = client.get('/users')
+        response = client.get('/users/')
         assert response.status_code == 200
 
     def test_register_user_get(self,client):

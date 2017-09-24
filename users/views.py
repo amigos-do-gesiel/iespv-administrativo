@@ -35,7 +35,7 @@ def register(request):
         raise Http404("Not allowed")
     except TypeError:
         raise Http404("Not allowed")
-        
+
     if request.method == "GET":
         return render(request, 'usersRegister/register.html')
     else:
@@ -141,7 +141,7 @@ def url_recovery(request, token):
                                 return render(request,'users/reset_password.html')
                         else:
                                 return render(request,'users/used_token.html')
-                        
+
         elif request.method == 'POST':
                 form = request.POST
                 password = form.get('password')
@@ -150,7 +150,7 @@ def url_recovery(request, token):
                 validator.token_used = True
                 validator.save()
                 return render(request,'users/confirm_recovery.html', {'username':validator.usuario.username})
-                
+
     # metodo que troca a senha do usuário
 
 
@@ -195,3 +195,22 @@ def make_login(request):
 def attendant_logout(request):
     logout(request)
     return render(request,"users/login.html")
+
+#@login_required
+#@user_passes_test(lambda user: user.is_superuser, login_url='/accounts/dashboard/')
+def register_donor(request):
+
+
+    if request.method == "GET":
+        return render(request, 'users/form_register_donor.html')
+    else:
+        form = reques.POST
+        validation_status = donor_validate_form(form)
+
+        if len(validation_status) != 0 :
+            return render (request,
+                        'users/form_register_donor.html',
+                        {'falha': validation_status})
+
+def donor_validate_form(form):
+    pass

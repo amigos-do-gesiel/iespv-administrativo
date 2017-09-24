@@ -59,7 +59,7 @@ class TestRecoveryPassWord:
 
     #Test change of password and used token.
     def test_password_change(self, client):
-        assert self.user1.password == 'Passw0rd'
+        old_password =  self.user1.password
         client.post('/users/solicitar_senha/',
                                {'email': self.user1.email},
         follow=True)
@@ -71,9 +71,9 @@ class TestRecoveryPassWord:
 
         user = User.objects.get(id=self.user1.id)
         # Cryptografy of the password dont let a comparison, just look if the password is changed.
-        assert user.password != 'passw0rd'
 
         response2 = client.get('/users/recuperar_senha/' + recovery_password.token_hash, follow=True)
+        assert user.password != old_password
         assert response2.status_code == 200
     
 

@@ -1,14 +1,17 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
+from django.http import Http404
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import user_passes_test
 from .models import Secretary, Administrator
 from django.contrib.auth import get_user_model
-from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from .models import RecoveryPassword
 from django.http import HttpResponseRedirect
-from django.contrib.auth.views import login
+from django.contrib.auth import authenticate
+from django.contrib.auth import login
+
 from django.contrib.auth import logout
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -16,14 +19,23 @@ User = get_user_model()
 
 # Create your views here.
 def index(request):
+    print(request.user.id)
     return render(request, 'index.html')
 
 #The lines below must be uncommented after the merge
 #@login_required
 #@user_passes_test(lambda user: user.is_superuser, login_url='/accounts/dashboard/')
 def register(request):
-    loggedAdmin = Administrator.objects.get(id=request.user.id)
 
+    try:
+        user = User.objects.get(id=request.user.id)
+        print(user)
+        loggedAdmin = Administrator.objects.get(user=user)
+    except ObjectDoesNotExist:
+        raise Http404("Not allowed")
+    except TypeError:
+        raise Http404("Not allowed")
+        
     if request.method == "GET":
         return render(request, 'usersRegister/register.html')
     else:
@@ -41,6 +53,7 @@ def register(request):
         name = form.get('name')
         email = form.get('email')
         password = form.get('password')
+        phone_number = form.get('phone_number')
         loggedAdmin.register_employee(employee_type, name, phone_number, email, password)
 
     return render(request, 'index.html')
@@ -146,7 +159,10 @@ def attendant_login(request):
         login_status = make_login(request)
         if login_status.get('is_logged'):
             #TODO redirect to user profile
-            return render(request, "/$")
+            login(request,login_status['user'])
+            print(request.user)
+            return HttpResponseRedirect(reverse('users:index'))
+            #return render(request,"users/login.html",login_status)
         else:
             return render(request,"users/login.html",login_status)
     else:
@@ -154,15 +170,13 @@ def attendant_login(request):
 
 def make_login(request):
     form = request.POST
-    username = form.get('username')
+    email = form.get('email')
     password = form.get('password')
 
-    user = authenticate(username=username, password=password)
+    user = authenticate(username=email, password=password)
     is_logged = False
 
     if user is not None:
-        logger = logging.getLogger(__name__)
-        logger.info(user.__str__() + ' User is logged')
         login(request, user)
         message = "Logged"
 
@@ -173,6 +187,7 @@ def make_login(request):
     context = {
         "is_logged": is_logged,
         "message": message,
+        "user":user
     }
 
     return context

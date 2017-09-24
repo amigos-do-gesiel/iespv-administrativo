@@ -1,58 +1,72 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser, User
 import hashlib
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
 from IESPV.settings import EMAIL_HOST_USER
 
 
-class Employee(User):
+class Employee(models.Model):
     class Meta:
         abstract = True
 
     phone_number = models.CharField(max_length = 12)
+    user = models.OneToOneField(User,on_delete=models.CASCADE)
 
-    def register_donator():
+    def register_donator(self):
         pass
 
-    def confirm_scheduling():
+    def confirm_scheduling(self):
         pass
 
-    def edit_donator():
+    def edit_donator(self):
         pass
 
+    def __str__(self):
+        return self.user.username
+    
 class Administrator(Employee):
     is_superuser = True
 
-    def register_employee(employee_type, name, phone_number, email, password):
+    def register_employee(self,employee_type, name, phone_number, email, password):
         if employee_type == 'secretary':
-            user = create_secretary(name, phone_number, email, password)
+            self.create_secretary(name, phone_number, email, password)
         else:
-            user = create_administrator(name, phone_number, email, password)
+            self.create_administrator(name, phone_number, email, password)
+
+    def remove_employee(self):
+        pass
+
+    def release_login(self):
+        pass
+
+    def block_login(self):
+        pass
+
+    def generate_user(self, name, phone_number, email, password):
+        user = User(first_name=name,username=email,email=email)
+        user.set_password(password)
         user.save()
-
-    def remove_employee():
-        pass
-
-    def release_login():
-        pass
-
-    def block_login():
-        pass
-
-    def create_secretary(name, phone_number, email, password):
-        user = Secretary (first_name = name,
-                        phone_number = phone_number,
-                        username = email,
-                        password = password)
         return user
+        
+    def create_secretary(self, name, phone_number, email, password):
+        user = self.generate_user(self, name, email, password)
+        secretary = Secretary (user=user,
+                               phone_number=phone_number
+        )
+        secretary.save()
+        
+        return secretary
 
-    def create_administrator(name, phone_number, username, password):
-        user = Administrator (first_name = name,
-                            phone_number = phone_number,
-                            username = email,
-                            password = password)
-        return user
+    def create_administrator(self, name, phone_number, email, password):
+        user = self.generate_user(self, name, email, password)
+        admin = Administrator (user=user,
+                              phone_number=phone_number
+        )
+        admin.save()
+        
+        return admin
+    
 class Secretary (Employee):
     is_superuser = False
     #List<Observer> observers: Observer
@@ -99,7 +113,7 @@ class RecoveryPassword(models.Model):
             recovery_password = None
                
         if recovery_password is None:
-            super().save()
+            super(RecoveryPassword,self).save()
         else:
             recovery_password.token_hash = self.token_hash
             recovery_password.token_used = False

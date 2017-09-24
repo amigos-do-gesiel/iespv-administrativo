@@ -3,12 +3,18 @@
 {% block content %}
 
         <div class="container">
-        <form class="form-login" role="form" method="POST" action="{% url 'login' %}">
+        <form class="form-login" role="form" method="POST" action="">
         {% csrf_token %}
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
                     <h2>Attendant Log in</h2>
+                    {% if message %}
+                    <div class="alert alert-info">
+                        <strong>Info! </strong>{{message}}
+                      </div>
+
+                    {% endif %}
                     <hr>
                 </div>
             </div>
@@ -61,7 +67,7 @@
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
                     <button type="submit" class="btn btn-success"><i class="fa fa-sign-in"></i> Log in</button>
-                    <a class="btn btn-link" href="{% url 'solicitation_password' %}">Forgot Your Password?</a>
+                    <a class="btn btn-link" href="{% url 'users:solicitation_password' %}">Forgot Your Password?</a>
                 </div>
             </div>
         </form>

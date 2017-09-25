@@ -204,7 +204,7 @@ def register_donor(request):
     if request.method == "GET":
         return render(request, 'users/form_register_donor.html')
     else:
-        form = reques.POST
+        form = request.POST
         validation_status = donor_validate_form(form)
 
         if len(validation_status) != 0 :

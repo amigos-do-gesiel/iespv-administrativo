@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'bootstrap4',
     'pytest',
+    'donations',
 ]
 
 MIDDLEWARE_CLASSES = [

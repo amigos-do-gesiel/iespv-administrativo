@@ -1,7 +1,7 @@
 # Created by https://www.gitignore.io/api/django
 
 ### Django ###
-*/migrations/
+*/migrations/*
 *.log
 *.pot
 *.pyc

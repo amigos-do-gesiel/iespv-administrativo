@@ -211,6 +211,18 @@ def register_donor(request):
             return render (request,
                         'users/form_register_donor.html',
                         {'falha': validation_status})
+        
 
 def donor_validate_form(form):
-    pass
+    name = form.get('name')
+    phone = form.get('phone_number')
+    email = form.get('email')
+    address = form.get('address')
+
+    resultCheck += check_name(name)
+    resultCheck += check_email(email)
+    #isnt needed check for repeated email, could be both donator and functionary
+    #resultCheck += check_repeated_email(email)
+
+
+    return resultCheck

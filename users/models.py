@@ -13,8 +13,16 @@ class Employee(models.Model):
     phone_number = models.CharField(max_length = 12)
     user = models.OneToOneField(User,on_delete=models.CASCADE)
 
-    def register_donor (self):
-        pass
+    def register_donor (self, name, phone_number, address, address_reference, observations, email):
+        user = self.generate_user(self, name, email, "")
+        donor = Donor(user = user,
+                    phone_number = phone_number,
+                    address=address,
+                    address_reference=address_reference,
+                    observations=observations)
+
+        donor.save()
+        return donor
 
     def confirm_scheduling(self):
         pass

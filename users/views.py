@@ -197,9 +197,16 @@ def attendant_logout(request):
     return render(request,"users/login.html")
 
 #@login_required
-#@user_passes_test(lambda user: user.is_superuser, login_url='/accounts/dashboard/')
 def register_donor(request):
 
+    try:
+        user = User.objects.get(id=request.user.id)
+        print(user)
+        logged_employee = Employee.objects.get(user=user)
+    except ObjectDoesNotExist:
+        raise Http404("Not allowed")
+    except TypeError:
+        raise Http404("Not allowed")
 
     if request.method == "GET":
         return render(request, 'users/form_register_donor.html')
@@ -211,7 +218,17 @@ def register_donor(request):
             return render (request,
                         'users/form_register_donor.html',
                         {'falha': validation_status})
-        
+
+        name = form.get("name")
+        phone_number = form.get("phone_number")
+        address = form.get("address")
+        address_reference = form.get("address_reference")
+        observations = form.get("observations")
+        email = form.get("email")
+
+        logged_employee.register_donor(name, phone_number, address, address_reference, observations, email)
+
+    return render(request, "index.html")
 
 def donor_validate_form(form):
     name = form.get('name')

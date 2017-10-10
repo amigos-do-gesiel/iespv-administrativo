@@ -35,7 +35,7 @@ def register(request):
         raise Http404("Not allowed")
     except TypeError:
         raise Http404("Not allowed")
-        
+
     if request.method == "GET":
         return render(request, 'usersRegister/register.html')
     else:
@@ -141,7 +141,7 @@ def url_recovery(request, token):
                                 return render(request,'users/reset_password.html')
                         else:
                                 return render(request,'users/used_token.html')
-                        
+
         elif request.method == 'POST':
                 form = request.POST
                 password = form.get('password')
@@ -150,7 +150,7 @@ def url_recovery(request, token):
                 validator.token_used = True
                 validator.save()
                 return render(request,'users/confirm_recovery.html', {'username':validator.usuario.username})
-                
+
     # metodo que troca a senha do usuário
 
 
@@ -195,3 +195,51 @@ def make_login(request):
 def attendant_logout(request):
     logout(request)
     return render(request,"users/login.html")
+
+#@login_required
+def register_donor(request):
+
+    try:
+        user = User.objects.get(id=request.user.id)
+        print(user)
+        logged_employee = Employee.objects.get(user=user)
+    except ObjectDoesNotExist:
+        raise Http404("Not allowed")
+    except TypeError:
+        raise Http404("Not allowed")
+
+    if request.method == "GET":
+        return render(request, 'users/form_register_donor.html')
+    else:
+        form = request.POST
+        validation_status = donor_validate_form(form)
+
+        if len(validation_status) != 0 :
+            return render (request,
+                        'users/form_register_donor.html',
+                        {'falha': validation_status})
+
+        name = form.get("name")
+        phone_number = form.get("phone_number")
+        address = form.get("address")
+        address_reference = form.get("address_reference")
+        observations = form.get("observations")
+        email = form.get("email")
+
+        logged_employee.register_donor(name, phone_number, address, address_reference, observations, email)
+
+    return render(request, "index.html")
+
+def donor_validate_form(form):
+    name = form.get('name')
+    phone = form.get('phone_number')
+    email = form.get('email')
+    address = form.get('address')
+
+    resultCheck += check_name(name)
+    resultCheck += check_email(email)
+    #isnt needed check for repeated email, could be both donator and functionary
+    #resultCheck += check_repeated_email(email)
+
+
+    return resultCheck

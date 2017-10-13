@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.http import Http404
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import user_passes_test
-from .models import Secretary, Administrator
+from .models import Secretary, Administrator, Employee
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from .models import RecoveryPassword
@@ -197,12 +197,16 @@ def attendant_logout(request):
     return render(request,"users/login.html")
 
 #@login_required
-def register_donor(request):
+def donor_registration(request):
 
     try:
         user = User.objects.get(id=request.user.id)
         print(user)
-        logged_employee = Employee.objects.get(user=user)
+        if user.is_superuser:
+            logged_employee = Administrator.objects.get(user=user)
+        else:
+            print("super")
+            logged_employee = Secretary.objects.get(user=user)
     except ObjectDoesNotExist:
         raise Http404("Not allowed")
     except TypeError:
@@ -236,6 +240,7 @@ def donor_validate_form(form):
     email = form.get('email')
     address = form.get('address')
 
+    resultCheck = ''
     resultCheck += check_name(name)
     resultCheck += check_email(email)
     #isnt needed check for repeated email, could be both donator and functionary

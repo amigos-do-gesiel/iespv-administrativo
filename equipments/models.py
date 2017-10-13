@@ -18,11 +18,11 @@ class EquipmentState(models.Model):
         raise TypeError("Not possible to take back because the equipment is "+ self)
 
     def disable_equipment(self):
-        pass
+        raise TypeError("Not possible to take back because the equipment is "+ self)
 
 class BrokenEquipment(EquipmentState):
     broken_date = models.DateField(auto_now=True)
-    price_repair = models.FloatField(blank=True)
+    price_repair = models.FloatField(blank=True,null=True)
 
     def fix_equipment(self):
         available_equipment = AvailableEquipment()
@@ -53,11 +53,17 @@ class BorrowedEquipment(EquipmentState):
 class AvailableEquipment(EquipmentState):
 
     def borrow_equipment(self):
-        pass
+        borrowed_equipment = BorrowedEquipment()
+        borrowed_equipment.save()
+        return borrowed_equipment
 
     def disable_equipment(self):
-        pass
+        broken_equipment = BrokenEquipment()
+        broken_equipment.save()
+        return broken_equipment
 
+    def __str__(self):
+        return "Available"
 
 class Equipment(models.Model):
     state = models.ForeignKey(EquipmentState,null=True)
@@ -65,7 +71,7 @@ class Equipment(models.Model):
     date_danation = models.DateField(auto_now=True)
 
     def start_state(self):
-        available = BorrowedEquipment()
+        available = AvailableEquipment()
         available.save()
         self.state = available
 
@@ -94,5 +100,10 @@ class Equipment(models.Model):
             pass
 
     def disable_equipment(self):
-        self.state = self.disable_equipment()
+        try:
+            previous_state = self.state.disable_equipment()
+            self.state.delete()
+            self.state = previous_state
+        except TypeError:
+            pass
 

@@ -6,29 +6,39 @@
       <div class="col-md-8 col-md-offset-2">
         <h2>Registrar Doação</h2>
         <form class="configdiv" action="" method="post">
-          <!-- <p2>{{falha}}</p2>
+          <p2>{{falha}}</p2>
           {% csrf_token %}
           <br>
 
           <div class="form-group">
-            <input type="text" name= "name" placeholder="Nome" class="form-control">
+            <label>Doador:</label>
+            <select class="form-control" id="donor">
+              <option value=#>Selecione um Doador</option>
+              {% for donor in donors %}
+                <option value=donor>{{donor.user.first_name}}</option>
+              {% endfor %}
+            </select>
           </div>
+
           <div class="form-group">
-            <input type="number" name= "phone_number" placeholder="Telefone" class="form-control">
+            <label>Tipo de doação:</label>
+            <select class="form-control" id="donor">
+              <option value=donation_type>Doação em dinheiro</option>
+              <option value=donation_type>Doação de equipamentos, materiais ou utensílios</option>
+            </select>
           </div>
+
           <div class="form-group">
-            <input type="text" name= "email" placeholder="Email" class="form-control">
+            <label>Data da coleta:</label>
+            <input type="text" name ="collect_date" placeholder="Ex: dia 01 de todo mês" class="form-control">
           </div>
+
           <div class="form-group">
-            <input type="text" name ="address" placeholder="Endereço" class="form-control">
+            <label>Descrição da doação:</label>
+            <input type="text" name ="observations" placeholder="O quê/quanto será doado?" class="form-control">
           </div>
-          <div class="form-group">
-            <input type="text" name ="address_reference" placeholder="Ponto de referência" class="form-control">
-          </div>
-          <div class="form-group">
-            <input type="text" name ="observations" placeholder="Observações" class="form-control">
-          </div>
-          <button type="submit" class="btn btn-success btn-lg btn-block">Salvar</button> -->
+
+          <button type="submit" class="btn btn-success btn-lg btn-block">Salvar</button>
 
         </form>
       </div>

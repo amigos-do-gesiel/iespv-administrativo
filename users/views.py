@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from django.http import HttpResponseRedirect
 from django.http import Http404
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import user_passes_test
-from .models import Secretary, Administrator, Employee
+from .models import Secretary, Administrator, Employee, Donor
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from .models import RecoveryPassword
@@ -14,6 +14,8 @@ from django.contrib.auth import login
 
 from django.contrib.auth import logout
 from django.core.exceptions import ObjectDoesNotExist
+
+from .forms import DonorForm
 
 User = get_user_model()
 
@@ -229,6 +231,7 @@ def donor_registration(request):
         address_reference = form.get("address_reference")
         observations = form.get("observations")
         email = form.get("email")
+        donation_date = form.get("donation_date")
 
         logged_employee.register_donor(name, phone_number, address, address_reference, observations, email)
 
@@ -239,12 +242,19 @@ def donor_validate_form(form):
     phone = form.get('phone_number')
     email = form.get('email')
     address = form.get('address')
+    donation_date = form.get("donation_date")
 
     resultCheck = ''
     resultCheck += check_name(name)
     resultCheck += check_email(email)
     #isnt needed check for repeated email, could be both donator and functionary
     #resultCheck += check_repeated_email(email)
-
-
     return resultCheck
+
+def donor_detail(request,donor_id):
+    donor_informations = get_object_or_404(Donor, pk=donor_id)
+    form = DonorForm(request.POST or None, instance=donor_informations)
+    if form.is_valid():
+        donor_object = form.save(commit=False)
+        donor_object.save()
+    return render(request,"users/donor_detail.html",{'form': form})

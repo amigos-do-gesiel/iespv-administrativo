@@ -1,0 +1,33 @@
+{% extends "base.html"%}
+{% block content %}
+
+  <!-- {% block body %} -->
+<br>
+  <div class="wrapper">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h2>Atualizar Doador</h2>
+        <form class="configdiv" action="" method="post">
+          <p2>{{falha}}</p2>
+          {% csrf_token %}
+          <br>
+          <div class="form-group">
+          	{{ form.as_p }}
+          </div>
+          <button type="submit" class="btn btn-success btn-lg btn-block">Atualizar</button>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- {% endblock %} -->
+{% endblock %}
+
+<!-- <h1>{{ donor_informations.phone_number }}</h1>
+<h1>{{ donor_informations.donation_date }}</h1>
+<ul>
+	{% for infos in donor_informaitons.all %}
+	    <li>{{ infos.donation_date }}</li>
+		{% endfor %}
+</ul> -->

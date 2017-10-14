@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^login/$', views.attendant_login, name ='login'),
     url(r'^logout/$', views.attendant_logout, name ='logout'),
     url(r'^registerdonor/', views.donor_registration, name='donor_registration'),
+    url(r'^donor_profile/edit/(?P<donor_id>[0-9]+)/$', views.donor_detail, name = 'donor_detail'),
 ]

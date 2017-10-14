@@ -16,6 +16,8 @@ class Employee(models.Model):
     def register_donor(self, name, phone_number, address, address_reference, observations, email,donation_date):
         user = self.generate_user(self, name, email, '')
         donor = Donor (user=user,
+                    name=name,
+                    email = email,
                     phone_number=phone_number,
                     address = address,
                     address_reference = address_reference,
@@ -131,9 +133,9 @@ class RecoveryPassword(models.Model):
             recovery_password.save()
 
 class Donor (models.Model):
-    #name = models.CharField(max_length = 50, blank = False)
+    name = models.CharField(max_length = 50, blank = False)
     phone_number = models.CharField(max_length = 12)
-    #email = models.CharField(max_length = 30, blank = True)
+    email = models.CharField(max_length = 30, blank = True)
     address = models.CharField(max_length = 200)
     address_reference = models.CharField(max_length = 200, blank = True)
     observations = models.TextField(blank = True)

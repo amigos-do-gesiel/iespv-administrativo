@@ -1,9 +1,10 @@
 from __future__ import unicode_literals
+from polymorphic.models import PolymorphicModel
 
 from django.db import models
 
 
-class EquipmentState(models.Model):
+class EquipmentState(PolymorphicModel):
 
     class meta:
         abstract =True
@@ -74,6 +75,7 @@ class Equipment(models.Model):
         available = AvailableEquipment()
         available.save()
         self.state = available
+        super(Equipment,self).save()
 
     def fix_equipment(self):
         try:

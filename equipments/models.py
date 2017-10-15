@@ -70,10 +70,12 @@ class Equipment(models.Model):
     equipment_name = models.CharField(max_length=30,default="blank")
     date_danation = models.DateField(auto_now=True)
 
-    def register_equipment():
-        equipment = Equipment()
-        # equipment.equipment_name = equipment_name
-        equipment.save()
+    def register_equipment(self, name_equipment):
+        available = AvailableEquipment()
+        available.save()
+        self.state = available
+        self.equipment_name = name_equipment
+        super(Equipment, self).save()
 
     def start_state(self):
         available = AvailableEquipment()

@@ -10,27 +10,17 @@ from equipments.models import BorrowedEquipment
 from equipments.models import BrokenEquipment
 from partners.models import Partner
 
-
-# Create your views here.
-
 def register_equipment(request):
-
-    # equipment = Equipment()
 
     if request.method == 'GET':
         return render(request, "form_equipment.html")
 
     else:
         form = request.POST
-        # state = form.get('state_equipment', None)
-        # equipment_name = form.get('equipment_name')
-        # date_danation = form.get('date')
-
         equipment_name = form.get('equipment_name')
-        equipment = Equipment(equipment_name=equipment_name,
-        state=available)
-        equipment.save()
-        return render(request, "index.html")
+        equipment = Equipment()
+        equipment.register_equipment(equipment_name)
+        return HttpResponseRedirect(reverse('equipments:list_equipment'))
 
 def borrow_equipment(request):
     context = {}

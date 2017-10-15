@@ -2,25 +2,38 @@
 {% block content %}
 
 {% if donations %}
-  {% for donation in donations %}
   <div class="container">
     <div class="panel panel-default">
       <table class="table table-hover">
-        <tbody>
-          <tr>
-            <td>
-              {{ donation.donor.name }} {{donation.observations}}
-              {{ donation.collection_date }} {{ donation.strategy.donation_value }}  
-            </td>
-          </tr>
-        </tbody>
+        <tr>
+            <th>Doador</th> <th>Doacao</th> <th>Observações</th>
+            <th>Data de coleta</th> <th>Editar</th>
+        </tr>
+        {% for donation in donations %}
+        <tr>
+          <td> {{ donation.donor.name }} </td>
+          <td> {{ donation.strategy.donation_subject }} </td>
+          <td> {{ donation.observations }} </td>
+          <td> {{ donation.collection_date|date:'d/m/y' }} </td>
+          <td> <a href="#">----</a> </td>
+        </tr>
+        {% endfor %}
       </table>
     </div>
   </div>
-  {% endfor %}
 {% else %}
-  <p>No donations available.</p>
+  <p> Não há doações agendadas. </p>
 
 {% endif %}
 
 {% endblock %}
+
+
+<!-- <tbody>
+  <tr>
+    <td>
+      {{ donation.donor.name }} {{donation.observations}}
+      {{ donation.collection_date }} {{ donation.strategy.donation_value }}
+    </td>
+  </tr>
+</tbody> -->

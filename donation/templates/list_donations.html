@@ -12,7 +12,7 @@
         {% for donation in donations %}
         <tr>
           <td> {{ donation.donor.name }} </td>
-          <td> {{ donation.strategy.donation_subject }} </td>
+          <td> {{ donation.strategy.get_value }} </td>
           <td> {{ donation.observations }} </td>
           <td> {{ donation.collection_date|date:'d/m/y' }} </td>
           <td> <a href="#">----</a> </td>

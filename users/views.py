@@ -234,7 +234,7 @@ def donor_registration(request):
 
         logged_employee.register_donor(name, phone_number, address, address_reference, observations, email, donation_date)
 
-    return render(request, "index.html")
+    return HttpResponseRedirect(reverse('users:donors_list'))
 
 def donor_validate_form(form):
     name = form.get('name')

@@ -10,8 +10,8 @@ class DonationStrategy(models.Model):
 
 class Donation(models.Model):
 
-    donor = models.OneToOneField(Donor)
-    employee = models.ForeignKey(User, blank=True)
+    donor = models.ForeignKey(Donor, unique=False)
+    employee = models.ForeignKey(User, blank=True, unique=False)
     strategy = models.OneToOneField(DonationStrategy,on_delete=models.CASCADE, blank= True) #there is supposed to be a DonationStrategy here
 
     observations = models.CharField(max_length=140)
@@ -19,7 +19,7 @@ class Donation(models.Model):
 
 class CashDonation(DonationStrategy):
 
-    donation_value = models.FloatField()
+    donation_value = models.FloatField(blank=True)
 
 class EquipmentDonation(DonationStrategy):
     #equipment = models.OneToManyField(Equipment)

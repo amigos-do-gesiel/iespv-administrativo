@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from .models import Donation, EquipmentDonation, CashDonation
+from django.http import HttpResponseRedirect
 from users.models import Employee, Donor, Secretary, Administrator
+from django.core.urlresolvers import reverse
 
 # authencate later!!!
 def register_donation(request):
@@ -35,7 +37,7 @@ def register_donation(request):
                             collection_date = collection_date)
         donation.save()
 
-    return render(request,"users/index.html")
+    return HttpResponseRedirect(reverse('donation:list_donations'))
 
 def list_donations(request):
     donations = Donation.objects.all()

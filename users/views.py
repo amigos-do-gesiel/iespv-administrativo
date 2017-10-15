@@ -177,10 +177,12 @@ def make_login(request):
     is_logged = False
 
     if user is not None:
-        login(request, user)
-        message = "Logged"
-
-        is_logged = True
+        if user.secretary.activate == True:
+            login(request, user)
+            message = "Logged"
+            is_logged = True
+        else:
+            message = "login bloqueado"    
     else:
         message = "Incorrect user"
 
@@ -260,3 +262,13 @@ def active_login_secretary(request, id_secretary):
             return HttpResponseRedirect(reverse('users:list_secretary'))
         else:
             return HttpResponseRedirect(reverse('users:list_secretary'))
+
+def deactive_login_secretary(request, id_secretary):
+
+    if request.method == 'GET':
+        admin = Administrator()
+        release = admin.block_login(id_secretary)
+        if release == True:
+            return HttpResponseRedirect(reverse('users:list_secretary'))
+        else:
+            return HttpResponseRedirect(reverse('users:list_secretary'))            

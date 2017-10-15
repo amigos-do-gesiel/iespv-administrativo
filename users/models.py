@@ -13,18 +13,26 @@ class Employee(models.Model):
     phone_number = models.CharField(max_length = 12)
     user = models.OneToOneField(User,on_delete=models.CASCADE)
 
-    def register_donator(self):
-        pass
+    def register_donor (self, name, phone_number, address, address_reference, observations, email):
+        user = self.generate_user(self, name, email, "")
+        donor = Donor(user = user,
+                    phone_number = phone_number,
+                    address=address,
+                    address_reference=address_reference,
+                    observations=observations)
+
+        donor.save()
+        return donor
 
     def confirm_scheduling(self):
         pass
 
-    def edit_donator(self):
+    def edit_donor(self):
         pass
 
     def __str__(self):
         return self.user.username
-    
+
 class Administrator(Employee):
     is_superuser = True
 
@@ -48,14 +56,14 @@ class Administrator(Employee):
         user.set_password(password)
         user.save()
         return user
-        
+
     def create_secretary(self, name, phone_number, email, password):
         user = self.generate_user(self, name, email, password)
         secretary = Secretary (user=user,
                                phone_number=phone_number
         )
         secretary.save()
-        
+
         return secretary
 
     def create_administrator(self, name, phone_number, email, password):
@@ -64,9 +72,9 @@ class Administrator(Employee):
                               phone_number=phone_number
         )
         admin.save()
-        
+
         return admin
-    
+
 class Secretary (Employee):
     is_superuser = False
     #List<Observer> observers: Observer
@@ -81,17 +89,17 @@ class RecoveryPassword(models.Model):
     def search_email_user(self, email):
         self.usuario = User.objects.get(email=email)
 
-        
+
     def generate_hash(self):
 
         plain_text = str(self.usuario.email) + str(self.usuario.password +str(self.date_expired))
         self.token_hash = hashlib.sha256(plain_text.encode('utf-8')).hexdigest()
-                
+
 
     def make_url(self):
-        return 'localhost:8000/users/recuperar_senha/' + str(self.token_hash) 
+        return 'localhost:8000/users/recuperar_senha/' + str(self.token_hash)
 
-        
+
     def send_email_url(self, email):
         self.search_email_user(email)
         self.generate_hash()
@@ -106,15 +114,25 @@ class RecoveryPassword(models.Model):
         )
 
 
-    def search_token_user(self):              
+    def search_token_user(self):
         try:
             recovery_password = RecoveryPassword.objects.get(usuario=self.usuario)
         except ObjectDoesNotExist:
             recovery_password = None
-               
+
         if recovery_password is None:
             super(RecoveryPassword,self).save()
         else:
             recovery_password.token_hash = self.token_hash
             recovery_password.token_used = False
             recovery_password.save()
+
+class Donor (models.Model):
+    #name = models.CharField(max_length = 50, blank = False)
+    phone_number = models.CharField(max_length = 12)
+    #email = models.CharField(max_length = 30, blank = True)
+    address = models.CharField(max_length = 200)
+    address_reference = models.CharField(max_length = 200, blank = True)
+    observations = models.TextField(blank = True)
+
+    user = models.OneToOneField(User,on_delete=models.CASCADE)

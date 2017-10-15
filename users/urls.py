@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^recuperar_senha/(?P<token>[0-9a-z]+)/', views.url_recovery, name = 'recovery_password'),
     url(r'^login/$', views.attendant_login, name ='login'),
     url(r'^logout/$', views.attendant_logout, name ='logout'),
+    url(r'^registerdonor/', views.register_donor, name='register_donor'),
 ]

@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'polymorphic',
     'pytest',
     'equipments',
+    'partners.apps.PartnersConfig',
 ]
 
 MIDDLEWARE_CLASSES = [

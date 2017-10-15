@@ -1,0 +1,26 @@
+{% extends "base.html"%}
+{% block content %}
+
+{% if donations %}
+  {% for donation in donations %}
+  <div class="container">
+    <div class="panel panel-default">
+      <table class="table table-hover">
+        <tbody>
+          <tr>
+            <td>
+              {{ donation.donor.name }} {{donation.observations}}
+              {{ donation.collection_date }} {{ donation.strategy.donation_value }}  
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% endfor %}
+{% else %}
+  <p>No donations available.</p>
+
+{% endif %}
+
+{% endblock %}

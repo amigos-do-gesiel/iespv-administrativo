@@ -1,0 +1,25 @@
+{% extends "base.html"%}
+{% block content %}
+
+  <!-- {% block body %} -->
+<br>
+      <div class="col-md-8 col-md-offset-2">
+        <h2>Registrar Doador</h2>
+        <form class="configdiv" action="" method="post">
+          <p2>{{falha}}</p2>
+          {% csrf_token %}
+          <br>
+
+          <div class="form-group">
+            <input type="text" name= "name" placeholder="Nome" class="form-control">
+          </div>
+          <div class="form-group">
+            <input type="number" name= "phone_number" placeholder="Telefone" class="form-control">
+          </div>
+          <div class="form-group">
+            <input type="text" name= "email" placeholder="Email" class="form-control">
+          </div>
+          
+
+  <!-- {% endblock %} -->
+{% endblock %}

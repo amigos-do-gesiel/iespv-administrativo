@@ -109,3 +109,5 @@ class Equipment(models.Model):
         except TypeError:
             pass
 
+    def __str__(self):
+        return self.equipment_name

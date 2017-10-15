@@ -1,0 +1,31 @@
+{% extends "base.html"%}
+{% block content %}
+
+<form class="" action="" method="POST">
+  {% csrf_token %}
+  <div class="form-group">
+	<label >Equipamentos disponiveis:</label>
+	<select class="form-control" name="equipment" id="equipment">
+	  {% for equipment in all_available %}
+	  <option value="{{equipment.id}}">{{equipment}}</option>
+	  {% endfor %}
+	</select>
+  </div>
+
+  <div class="form-group">
+	<label for="sel1">Parceiros disponiveis:</label>
+	<select class="form-control" name="partner" id="partner">
+	  {% for partner in all_partner %}
+	  <option value="{{partner.id}}">{{partner}}</option>
+	  {% endfor %}
+	</select>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Fazer emprestimo</button>
+  <a href="{% url 'users:index' %}" class="btn btn-warning">Cancelar</a>
+
+
+</form>
+{% endblock %}
+
+

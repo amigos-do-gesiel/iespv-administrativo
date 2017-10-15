@@ -1,0 +1,27 @@
+{% extends "base.html"%}
+{% block content %}
+
+{% if list_of_donors %}
+  {% for donor in list_of_donors %}
+  <div class="container">
+    <div class="panel panel-default">
+      <table class="table table-hover">
+        <tbody>
+          <tr>
+            <td>
+            <a href="{% url 'users:donor_detail' donor.id %}" class="list-group-item clearfix">
+              <span class="glyphicon glyphicon-file"></span>
+              {{ donor.name }}
+            </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% endfor %}
+{% else %}
+  <p>No donors available.</p>
+{% endif %}
+
+{% endblock %}

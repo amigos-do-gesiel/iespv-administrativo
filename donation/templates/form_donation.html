@@ -1,0 +1,62 @@
+{% extends "base.html"%}
+{% block content %}
+
+<br>
+<div class="col-md-8 col-md-offset-2">
+  <h5>Registrar Doação</h5>
+  <form class="configdiv" action="" method="post">
+    <p2>{{falha}}</p2>
+    {% csrf_token %}
+
+    <div class="form-group">
+      <label>Doador:</label>
+      <select class="form-control" name="donor">
+        <option value=#>Selecione um Doador</option>
+        {% for donor in donors %}
+          <option value={{donor.id}}>{{donor.name}}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Tipo de doação:</label>
+      <select class="form-control" id="donationType" name="donation_type" onchange="showMe();">
+        <option value=donation_equip>Doação de equipamentos, materiais ou utensílios</option>
+        <option value=donation_cash>Doação em dinheiro</option>
+      </select>
+    </div>
+
+    <div id='valueInput' class="form-group" style='display:none'>
+      <label>Valor da doação (R$):</label>
+      <input type="number" name ="value" min="0.0" placeholder="0.00" step="0.01" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label>Data da coleta:</label>
+      <input type="date" name ="collection_date" placeholder="01/12/2017" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label>Observações:</label>
+      <input type="text" name ="observations" placeholder="Observações" class="form-control">
+    </div>
+
+    <button type="submit" class="btn btn-success btn-lg btn-block">Salvar</button>
+
+  </form>
+</div>
+
+<script>
+  function showMe() {
+      var e = document.getElementById("valueInput");
+      var select = document.getElementById("donationType").value;
+      console.log(select);
+      if(select == 'donation_cash') {
+          e.style.display = "block";
+      } else {
+          e.style.display = "none";
+      }
+  }
+</script>
+
+{% endblock %}

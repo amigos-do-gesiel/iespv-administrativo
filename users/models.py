@@ -13,22 +13,27 @@ class Employee(models.Model):
     phone_number = models.CharField(max_length = 12)
     user = models.OneToOneField(User,on_delete=models.CASCADE)
 
-    def register_donor (self, name, phone_number, address, address_reference, observations, email):
-        user = self.generate_user(self, name, email, "")
-        donor = Donor(user = user,
-                    phone_number = phone_number,
-                    address=address,
-                    address_reference=address_reference,
-                    observations=observations)
-
+    def register_donor(self, name, phone_number, address, address_reference, observations, email,donation_date):
+        user = self.generate_user(self, name, email, '')
+        donor = Donor (user=user,
+                    name=name,
+                    email = email,
+                    phone_number=phone_number,
+                    address = address,
+                    address_reference = address_reference,
+                    observations = observations,
+                    donation_date=donation_date)
         donor.save()
-        return donor
 
     def confirm_scheduling(self):
         pass
 
     def edit_donor(self):
         pass
+
+    def update_donation_date(self, newDonationDate, donor):
+        donor.donation_date = newDonationDate
+        donor.save()
 
     def __str__(self):
         return self.user.username
@@ -51,6 +56,13 @@ class Administrator(Employee):
     def block_login(self):
         pass
 
+    def generate_superuser(self, name, phone_number, email, password):
+        user = User(first_name=name,username=email,email=email)
+        user.set_password(password)
+        user.is_superuser = True
+        user.save()
+        return user
+
     def generate_user(self, name, phone_number, email, password):
         user = User(first_name=name,username=email,email=email)
         user.set_password(password)
@@ -67,7 +79,7 @@ class Administrator(Employee):
         return secretary
 
     def create_administrator(self, name, phone_number, email, password):
-        user = self.generate_user(self, name, email, password)
+        user = self.generate_superuser(self, name, email, password)
         admin = Administrator (user=user,
                               phone_number=phone_number
         )
@@ -128,11 +140,11 @@ class RecoveryPassword(models.Model):
             recovery_password.save()
 
 class Donor (models.Model):
-    #name = models.CharField(max_length = 50, blank = False)
+    name = models.CharField(max_length = 50, blank = False)
     phone_number = models.CharField(max_length = 12)
-    #email = models.CharField(max_length = 30, blank = True)
+    email = models.CharField(max_length = 30, blank = True)
     address = models.CharField(max_length = 200)
     address_reference = models.CharField(max_length = 200, blank = True)
     observations = models.TextField(blank = True)
-
+    donation_date = models.DateField()
     user = models.OneToOneField(User,on_delete=models.CASCADE)

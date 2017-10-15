@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'pytest',
     'donation',
+    'equipments',
 ]
 
 MIDDLEWARE_CLASSES = [

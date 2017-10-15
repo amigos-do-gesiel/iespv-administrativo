@@ -1,0 +1,40 @@
+{% extends "base.html"%}
+{% block content %}
+
+  <!-- {% block body %} -->
+<br>
+  <div class="wrapper">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h2>Registrar Parceiro</h2>
+        <form class="configdiv" action="" method="post">
+          {%for falha in falhas%}
+            {% if falha %}
+              <div class="alert alert-info mt-5" role="alert">
+                <strong>{{falha}}</strong>
+              </div>
+            {%endif%}
+          {%endfor%} 
+          {% csrf_token %}
+          <br>
+          <div class="form-group">
+            <input type="text" name= "name" placeholder="Nome" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <textarea name="description" rows="3" cols="50"></textarea>
+          </div>
+           <div class="form-group">
+            <input type="text" name= "address" placeholder="Endereço" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <input type="tel" name= "fone" placeholder="Telefone" class="form-control" required>
+          </div>
+          <button type="submit" class="btn btn-success btn-lg btn-block">Cadastrar Parceiro</button>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- {% endblock %} -->
+{% endblock %}

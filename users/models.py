@@ -4,6 +4,7 @@ import hashlib
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
 from IESPV.settings import EMAIL_HOST_USER
+from datetime import datetime 
 
 
 class Employee(models.Model):
@@ -54,6 +55,7 @@ class Administrator(Employee):
         if secretary is not None:
             if secretary.activate == False:
                 secretary.activate = True
+                secretary.release_activate_at = datetime.now()
                 secretary.save()
                 release = True
             else:
@@ -64,8 +66,25 @@ class Administrator(Employee):
         return release                    
 
 
-    def block_login(self):
-        pass
+    def block_login(self, id_Secretary):
+
+        try:
+            secretary = Secretary.objects.get(id=id_Secretary)
+        except ObjectDoesNotExist:
+            secretary = None    
+
+        if secretary is not None:
+            if secretary.activate == True:
+                secretary.activate = False
+                secretary.release_activate_at = None
+                secretary.save()
+                release = True
+            else:
+                release = False
+        else:
+            release = False
+        
+        return release
 
     def generate_user(self, name, phone_number, email, password):
         user = User(first_name=name,username=email,email=email)
@@ -94,6 +113,7 @@ class Administrator(Employee):
 class Secretary (Employee):
     is_superuser = False
     activate =  models.BooleanField(default=False)
+    release_activate_at = models.DateTimeField(null=True, blank=True)
     #List<Observer> observers: Observer
 
     def listAllSecretaries(self):

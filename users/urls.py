@@ -4,7 +4,6 @@ from users import views
 
 urlpatterns = [
     url(r'^$', views.index, name="index"),
-    # url(r'^users', view.index, name="index")
     url(r'^register/', views.register, name="register"),
     url(r'^solicitar_senha/', views.solicitation_reset_password, name = 'solicitation_password'),
     url(r'^recuperar_senha/(?P<token>[0-9a-z]+)/', views.url_recovery, name = 'recovery_password'),

@@ -7,3 +7,4 @@ pytest-django
 pytest-cov
 factory_boy
 unipath
+django-polymorphic

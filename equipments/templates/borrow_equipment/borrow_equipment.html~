@@ -1,0 +1,6 @@
+
+List of avalible equipments:
+
+{% for equipment in avalible_equipments %}
+  ->{{equipment}}
+{% endfor %}

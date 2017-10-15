@@ -70,6 +70,11 @@ class Equipment(models.Model):
     equipment_name = models.CharField(max_length=30,default="blank")
     date_danation = models.DateField(auto_now=True)
 
+    def register_equipment():
+        equipment = Equipment()
+        # equipment.equipment_name = equipment_name
+        equipment.save()
+
     def start_state(self):
         available = AvailableEquipment()
         available.save()
@@ -85,7 +90,7 @@ class Equipment(models.Model):
 
     def borrow_equipment(self):
         try:
-            previous_state = self.state.borrow_equipment() 
+            previous_state = self.state.borrow_equipment()
             self.state.delete()
             self.state = previous_state
         except TypeError:
@@ -106,4 +111,3 @@ class Equipment(models.Model):
             self.state = previous_state
         except TypeError:
             pass
-

@@ -1,4 +1,33 @@
 {% extends "base.html"%}
 {% block content %}
-	<section>List de todos os partners</section>
+	<h2>Lista de todos os partners:</h2>
+
+
+	{{partner}}
+	
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>Nome</th>
+      <th>Endereço</th>
+      <th>Telefone</th>
+    </tr>
+  </thead>
+  <tbody>
+	{% for partner in all_partners %}
+    <tr>
+      <th scope="row">{{partner.id}}</th>
+      <td>{{partner}}</td>
+      <td>{{partner.address}}</td>
+      <td>{{partner.fone}}</td>
+    </tr>
+	{% endfor %}
+  </tbody>
+</table>
+
+
+	
 {% endblock %}

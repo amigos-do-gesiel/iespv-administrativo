@@ -16,4 +16,5 @@ class Partner(models.Model):
 		partner.save()
 		
 	
-		
+	def __str__(self):
+                return self.name

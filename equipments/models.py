@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 from polymorphic.models import PolymorphicModel
 
 from django.db import models
-
+from partners.models import Partner
 
 class EquipmentState(PolymorphicModel):
 
@@ -12,7 +12,7 @@ class EquipmentState(PolymorphicModel):
     def fix_equipment(self):
         raise TypeError("Not possible to fix because the equipment is " + self)
 
-    def borrow_equipment(self):
+    def borrow_equipment(self,partner):
         raise TypeError("Not passible to borrow because the equipment is " + self)
 
     def take_back_equipment(self):
@@ -35,8 +35,7 @@ class BrokenEquipment(EquipmentState):
 
 class BorrowedEquipment(EquipmentState):
     borrow_date = models.DateField(auto_now=True)
-    # partner shold be from Partner Class
-    partner = models.CharField(max_length=30, default="blank")
+    partner = models.ForeignKey(Partner)
 
     def take_back_equipment(self):
         available_equipment = AvailableEquipment()
@@ -53,8 +52,8 @@ class BorrowedEquipment(EquipmentState):
 
 class AvailableEquipment(EquipmentState):
 
-    def borrow_equipment(self):
-        borrowed_equipment = BorrowedEquipment()
+    def borrow_equipment(self,partner):
+        borrowed_equipment = BorrowedEquipment(partner=partner)
         borrowed_equipment.save()
         return borrowed_equipment
 
@@ -80,15 +79,15 @@ class Equipment(models.Model):
     def fix_equipment(self):
         try:
             previous_state = self.state.fix_equipment()
-            self.state.delete()
+            (self.state).delete()
             self.state = previous_state
         except TypeError:
             pass
 
-    def borrow_equipment(self):
+    def borrow_equipment(self, partner):
         try:
-            previous_state = self.state.borrow_equipment() 
-            self.state.delete()
+            previous_state = self.state.borrow_equipment(partner) 
+            (self.state).delete()
             self.state = previous_state
         except TypeError:
             pass
@@ -96,7 +95,7 @@ class Equipment(models.Model):
     def take_back_equipment(self):
         try:
             previous_state = self.state.take_back_equipment()
-            self.state.delete()
+            (self.state).delete()
             self.state = previous_state
         except TypeError:
             pass
@@ -104,10 +103,10 @@ class Equipment(models.Model):
     def disable_equipment(self):
         try:
             previous_state = self.state.disable_equipment()
-            self.state.delete()
+            (self.state).delete()
             self.state = previous_state
+            pass
         except TypeError:
             pass
-
     def __str__(self):
         return self.equipment_name

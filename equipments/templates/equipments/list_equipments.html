@@ -1,0 +1,72 @@
+{% extends "base.html"%}
+
+{% block content %}
+<br>
+<a href="{% url 'equipments:borrow_equipment' %}" class="btn btn-primary">Emprestar Equipamento</a>
+
+<h2>Equipamentos disponiveis</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>Nome</th>
+    </tr>
+  </thead>
+  <tbody>
+	{% for equipment in all_available %}
+    <tr>
+      <th scope="row">{{equipment.id}}</th>
+      <td>{{ equipment.equipment_name }}</td>
+    </tr>
+	{% endfor %}
+  </tbody>
+</table>
+
+
+
+<h2>Equipamentos alugados</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>Nome</th>
+      <th>Operação</th>
+    </tr>
+  </thead>
+  <tbody>
+	{% for equipment in all_borrow %}
+    <tr>
+      <th scope="row">{{equipment.id}}</th>
+      <td>{{ equipment.equipment_name }}</td>
+      <td><a class="btn btn-warning" href="{% url 'equipments:take_back_equipment' equipment.id %}">Pegar de volta<a></td>
+    </tr>
+	{% endfor %}
+  </tbody>
+</table>
+
+
+
+<h2>Equipamentos Quebrado</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>Nome</th>
+    </tr>
+  </thead>
+  <tbody>
+	{% for equipment in all_broken %}
+    <tr>
+      <th scope="row">{{equipment.id}}</th>
+      <td>{{ equipment.equipment_name }}</td>
+    </tr>
+	{% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
+
+

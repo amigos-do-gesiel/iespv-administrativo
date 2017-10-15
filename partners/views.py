@@ -45,7 +45,7 @@ def validate_form(form):
 
     address = check_address(address, 10)
     if len(address) != 0:	
-    	resultCheck.append(address, 10)
+    	resultCheck.append(address)
 
     fone = check_fone(fone, 8)
     if len(fone) != 0:
@@ -80,5 +80,7 @@ def check_fone(fone, tamanho):
 
 
 def list_partners(request):
-	
-	return render(request, 'partners/partnersList.html')
+	context = {
+                'all_partners': Partner.objects.all(),
+        }
+	return render(request, 'partners/partnersList.html',context)

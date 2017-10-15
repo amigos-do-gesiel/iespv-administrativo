@@ -243,3 +243,20 @@ def donor_validate_form(form):
 
 
     return resultCheck
+
+def listSecretary(request):
+    secretary = Secretary()
+    secretaries = secretary.listAllSecretaries()
+
+    if request.method == "GET":
+        return render(request, 'users/list_all_secretary.html', {'secretaries': secretaries})
+
+def active_login_secretary(request, id_secretary):
+
+    if request.method == 'GET':
+        admin = Administrator()
+        release = admin.release_login(id_secretary)
+        if release == True:
+            return HttpResponseRedirect(reverse('users:list_secretary'))
+        else:
+            return HttpResponseRedirect(reverse('users:list_secretary'))

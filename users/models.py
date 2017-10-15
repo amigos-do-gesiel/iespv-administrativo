@@ -56,6 +56,13 @@ class Administrator(Employee):
     def block_login(self):
         pass
 
+    def generate_superuser(self, name, phone_number, email, password):
+        user = User(first_name=name,username=email,email=email)
+        user.set_password(password)
+        user.is_superuser = True
+        user.save()
+        return user
+
     def generate_user(self, name, phone_number, email, password):
         user = User(first_name=name,username=email,email=email)
         user.set_password(password)
@@ -72,7 +79,7 @@ class Administrator(Employee):
         return secretary
 
     def create_administrator(self, name, phone_number, email, password):
-        user = self.generate_user(self, name, email, password)
+        user = self.generate_superuser(self, name, email, password)
         admin = Administrator (user=user,
                               phone_number=phone_number
         )

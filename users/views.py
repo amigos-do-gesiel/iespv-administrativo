@@ -163,7 +163,7 @@ def attendant_login(request):
             #TODO redirect to user profile
             login(request,login_status['user'])
             print(request.user)
-            return HttpResponseRedirect(reverse('users:donors_list')) 
+            return HttpResponseRedirect(reverse('users:donors_list'))
             #return render(request,"users/login.html",login_status)
         else:
             return render(request,"users/login.html",login_status)
@@ -196,7 +196,7 @@ def make_login(request):
 
 def attendant_logout(request):
     logout(request)
-    return HttpResponseRedirect(reverse('users:login')) 
+    return HttpResponseRedirect(reverse('users:login'))
 
 #@login_required
 def donor_registration(request):
@@ -207,7 +207,6 @@ def donor_registration(request):
         if user.is_superuser:
             logged_employee = Administrator.objects.get(user=user)
         else:
-            print("super")
             logged_employee = Secretary.objects.get(user=user)
     except ObjectDoesNotExist:
         raise Http404("Not allowed")
@@ -262,4 +261,3 @@ def donor_detail(request,donor_id):
 def donors_list(request):
     list_of_donors = Donor.objects.order_by("donation_date")
     return render(request, "users/donors_list.html",{'list_of_donors':list_of_donors})
-

@@ -45,8 +45,24 @@ class Administrator(Employee):
     def remove_employee(self):
         pass
 
-    def release_login(self):
-        pass
+    def release_login(self, id_Secretary):
+        try:
+            secretary = Secretary.objects.get(id=id_Secretary)
+        except ObjectDoesNotExist:
+            secretary = None    
+
+        if secretary is not None:
+            if secretary.activate == False:
+                secretary.activate = True
+                secretary.save()
+                release = True
+            else:
+                release = False
+        else:
+            release = False
+        
+        return release                    
+
 
     def block_login(self):
         pass
@@ -77,7 +93,12 @@ class Administrator(Employee):
 
 class Secretary (Employee):
     is_superuser = False
+    activate =  models.BooleanField(default=False)
     #List<Observer> observers: Observer
+
+    def listAllSecretaries(self):
+        secretaries = Secretary.objects.all()
+        return secretaries
 
 class RecoveryPassword(models.Model):
     usuario = models.OneToOneField(User, primary_key=True,blank=True)

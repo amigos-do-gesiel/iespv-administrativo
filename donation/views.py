@@ -23,19 +23,11 @@ def register_donation(request):
         #equipment = Equipment.objects.filter(id = equipment_id)[0]
 
         if donation_type == 'donation_equip':
-            donation_strategy = EquipmentDonation(
-            #                             equipment = equipment
-            )
+            new_eqp_donation = EquipmentDonation()
+            new_eqp_donation.build_donation("--temporário--", donor, employee, observations, collection_date)
         else:
-            donation_strategy = CashDonation(donation_value = value)
-
-        donation_strategy.save()
-        donation = Donation(donor = donor,
-                            employee = employee,
-                            strategy = donation_strategy,
-                            observations = observations,
-                            collection_date = collection_date)
-        donation.save()
+            new_cash_donation = CashDonation()
+            new_cash_donation.build_donation(value, donor, employee, observations, collection_date)
 
     return HttpResponseRedirect(reverse('donation:list_donations'))
 
@@ -44,3 +36,8 @@ def list_donations(request):
 
     if request.method == 'GET':
         return render(request, "list_donations.html", {'donations': donations} )
+
+def delete_donation(request, donation_id):
+    donation = Donation.objects.filter(id=donation_id)
+    donation.delete()
+    return HttpResponseRedirect(reverse('donation:list_donations'))

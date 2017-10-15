@@ -1,0 +1,11 @@
+{% extends "base.html"%}
+
+{% block content %}
+<br>
+<div class="alert alert-danger" role="alert">
+  Ocorreu um erro ao realizar esse emprestimo.
+</div>
+
+
+<a href="{% url 'equipments:borrow_equipment' %}" class="btn btn-warning">Tentar de novo</a>
+{% endblock %}

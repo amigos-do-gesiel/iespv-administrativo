@@ -2,6 +2,7 @@
 
 ### Django ###
 migrations/
+*/migrations/*
 *.log
 *.pot
 *.pyc

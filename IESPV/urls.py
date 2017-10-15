@@ -22,4 +22,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^users/', include('users.urls',namespace='users')),
     url(r'^donation/', include('donation.urls',namespace='donation')),
+    url(r'^equipments/', include('equipments.urls',namespace='equipments')),
+    url(r'^partners/', include('partners.urls',namespace='partners')),
 ]

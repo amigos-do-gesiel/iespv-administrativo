@@ -7,4 +7,6 @@ urlpatterns = [
     url(r'^make_borrow/(?P<id_equipment>[0-9]+)/(?P<id_partner>[0-9]+)/', views.make_borrow, name = 'make_borrow'),
     url(r'^list_equipment', views.list_equipment, name = 'list_equipment'),
     url(r'^take_back_equipment/(?P<id_equipment>[0-9]+)/', views.take_back_equipment, name = 'take_back_equipment'),
+    url(r'^fix_equipment/(?P<id_equipment>[0-9]+)/', views.fix_equipment, name = 'fix_equipment'),
+    url(r'^broke_equipment/(?P<id_equipment>[0-9]+)/', views.broke_equipment, name = 'broke_equipment'),
 ]

@@ -4,12 +4,12 @@ from abc import ABCMeta
 from django.core.mail import send_mail
 from IESPV.settings import EMAIL_HOST_USER
 
-class Observer:
+class Observer(object):
     
     def update(self, input):
         return        
 
-class Observable:
+class Observable(object):
     
     def add_observers():
         return

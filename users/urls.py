@@ -9,7 +9,6 @@ urlpatterns = [
     url(r'^recuperar_senha/(?P<token>[0-9a-z]+)/', views.url_recovery, name = 'recovery_password'),
     url(r'^login/$', views.attendant_login, name ='login'),
     url(r'^logout/$', views.attendant_logout, name ='logout'),
-    url(r'^registerdonor/', views.register_donor, name='register_donor'),
     url(r'^list_secretaries/$', views.listSecretary, name ='list_secretary'),
     url(r'^deactive_login_secretary/(?P<id_secretary>[0-9]+)/', views.deactive_login_secretary, name ='deactive_login_secretary'),
     url(r'^active_login_secretary/(?P<id_secretary>[0-9]+)/', views.active_login_secretary, name ='active_login_secretary'),

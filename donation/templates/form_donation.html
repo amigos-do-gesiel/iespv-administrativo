@@ -19,6 +19,16 @@
     </div>
 
     <div class="form-group">
+      <label>Equipamento:</label>
+      <select class="form-control" name="donor">
+        <option value=#>Selecione o equipamento</option>
+        {% for equipment in equipments %}
+          <option value={{equipment.id}}>{{equipment.equipment_name}}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group">
       <label>Tipo de doação:</label>
       <select class="form-control" id="donationType" name="donation_type" onchange="showMe();">
         <option value=donation_equip>Doação de equipamentos, materiais ou utensílios</option>

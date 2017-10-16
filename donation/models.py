@@ -20,7 +20,6 @@ class Donation(models.Model):
     collection_date = models.DateField(blank=True)
     strategy = models.OneToOneField(DonationStrategy,on_delete=models.CASCADE, blank= True)
 
-
 class CashDonation(DonationStrategy):
 
     donation_subject = models.FloatField(blank=True)

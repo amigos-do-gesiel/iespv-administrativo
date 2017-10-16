@@ -140,6 +140,19 @@ class Secretary (Employee, Observable):
     def notify_observers(self, input):
         for observer in self.observers_in_secretary:
             observer.update(input)
+
+
+    def date_time_release(self):
+        date_now = datetime.now()
+
+        if self.release_activate_at.date() == date_now.date():
+           if self.release_activate_at.hour - date_now.hour >= 6:
+                self.add_observers()
+                self.notify_observers(self.user.email) 
+
+        else:
+            self.add_observers()
+            self.notify_observers(self.user.email)
         
 
 class RecoveryPassword(models.Model):

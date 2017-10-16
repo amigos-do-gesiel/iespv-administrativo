@@ -4,7 +4,9 @@ import hashlib
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
 from IESPV.settings import EMAIL_HOST_USER
-from datetime import datetime 
+from datetime import datetime
+from six import with_metaclass
+from core.models import Observer, Observable, Email 
 
 
 class Employee(models.Model):
@@ -34,7 +36,8 @@ class Employee(models.Model):
     def __str__(self):
         return self.user.username
 
-class Administrator(Employee):
+class Administrator(Employee, Observer):
+
     is_superuser = True
 
     def register_employee(self,employee_type, name, phone_number, email, password):
@@ -110,15 +113,27 @@ class Administrator(Employee):
 
         return admin
 
-class Secretary (Employee):
+
+class Secretary (Employee, Observable):
     is_superuser = False
     activate =  models.BooleanField(default=False)
     release_activate_at = models.DateTimeField(null=True, blank=True)
-    #List<Observer> observers: Observer
+    observers_in_secretary = []
 
     def listAllSecretaries(self):
         secretaries = Secretary.objects.all()
         return secretaries
+
+    def add_observers(self):
+        self.observers_in_secretary = Administrator.objects.all()
+        
+    def remove_observers(self, input):
+        return
+
+    def notify_observers(self, input):
+        for observer in self.observers_in_secretary:
+            observer.update(input)
+        
 
 class RecoveryPassword(models.Model):
     usuario = models.OneToOneField(User, primary_key=True,blank=True)

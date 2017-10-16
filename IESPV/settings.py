@@ -48,7 +48,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users.apps.UsersConfig',
     'bootstrap4',
+    'polymorphic',
     'pytest',
+    'donation',
+    'equipments',
     'partners.apps.PartnersConfig',
     'core.apps.CoreConfig',
 ]

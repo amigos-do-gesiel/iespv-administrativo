@@ -8,48 +8,47 @@ from .models import Partner
 # Create your views here.
 
 def register(request):
-	
-	if request.method == "GET":
-		return render(request, 'partners/register.html')
-	else:
-		form = request.POST
-		validate_form_data = validate_form(form)
-		if len(validate_form_data) != 0 :
-			return render (request,
+
+    if request.method == "GET":
+        return render(request, 'partners/register.html')
+    else:
+        form = request.POST
+        validate_form_data = validate_form(form)
+        if len(validate_form_data) != 0 :
+            return render (request,
                         'partners/register.html',
                         {'falhas': validate_form_data})
-		else:
-			name = form.get('name')
-        	description = form.get('description')
-        	address = form.get('address')
-        	fone = form.get('fone')
-        	partner = Partner()
-        	partner.save_patners(name, description, address, fone)
-        	return HttpResponseRedirect(reverse('partners:list'))		
+        else:
+            name = form.get('name')
+            description = form.get('description')
+            address = form.get('address')
+            fone = form.get('fone')
+            partner = Partner()
+            partner.save_patners(name, description, address, fone)
+            return HttpResponseRedirect(reverse('partners:list'))
 
 def validate_form(form):
     name = form.get('name')
     description = form.get('description')
     address = form.get('address')
     fone = form.get('fone')
-
     resultCheck = []
-
     name = check_name(name, 3)
+
     if len(name) != 0:
-		resultCheck.append(name)
+        resultCheck.append(name)
 
     description = check_description(description, 10)
     if len(description) != 0:
-    	resultCheck.append(description)
+        resultCheck.append(description)
 
     address = check_address(address, 10)
-    if len(address) != 0:	
-    	resultCheck.append(address, 10)
+    if len(address) != 0:
+        resultCheck.append(address)
 
     fone = check_fone(fone, 8)
     if len(fone) != 0:
-    	resultCheck.append(fone)
+        resultCheck.append(fone)
 
     return resultCheck
 
@@ -75,10 +74,12 @@ def check_fone(fone, tamanho):
     if len(fone) >= tamanho and not fone.isalpha():
         return ''
     else:
-        return 'fone deve ter no minimo de ' + str(tamanho) + ' caracteres'                      
+        return 'fone deve ter no minimo de ' + str(tamanho) + ' caracteres'
 
 
 
 def list_partners(request):
-	
-	return render(request, 'partners/partnersList.html')
+    context = {
+                'all_partners': Partner.objects.all(),
+        }
+    return render(request, 'partners/partnersList.html',context)

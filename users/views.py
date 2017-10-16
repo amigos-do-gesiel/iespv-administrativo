@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from django.http import HttpResponseRedirect
 from django.http import Http404
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import user_passes_test
-from .models import Secretary, Administrator
+from .models import Secretary, Administrator, Employee, Donor
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from .models import RecoveryPassword
@@ -14,6 +14,8 @@ from django.contrib.auth import login
 
 from django.contrib.auth import logout
 from django.core.exceptions import ObjectDoesNotExist
+
+from .forms import DonorForm
 
 User = get_user_model()
 
@@ -161,7 +163,7 @@ def attendant_login(request):
             #TODO redirect to user profile
             login(request,login_status['user'])
             print(request.user)
-            return HttpResponseRedirect(reverse('users:index'))
+            return HttpResponseRedirect(reverse('users:donors_list'))
             #return render(request,"users/login.html",login_status)
         else:
             return render(request,"users/login.html",login_status)
@@ -203,15 +205,18 @@ def make_login(request):
 
 def attendant_logout(request):
     logout(request)
-    return render(request,"users/login.html")
+    return HttpResponseRedirect(reverse('users:login'))
 
 #@login_required
-def register_donor(request):
+def donor_registration(request):
 
     try:
         user = User.objects.get(id=request.user.id)
         print(user)
-        logged_employee = Employee.objects.get(user=user)
+        if user.is_superuser:
+            logged_employee = Administrator.objects.get(user=user)
+        else:
+            logged_employee = Secretary.objects.get(user=user)
     except ObjectDoesNotExist:
         raise Http404("Not allowed")
     except TypeError:
@@ -234,24 +239,26 @@ def register_donor(request):
         address_reference = form.get("address_reference")
         observations = form.get("observations")
         email = form.get("email")
+        donation_date = form.get("donation_date")
 
-        logged_employee.register_donor(name, phone_number, address, address_reference, observations, email)
+        logged_employee.register_donor(name, phone_number, address, address_reference, observations, email, donation_date)
 
-    return render(request, "index.html")
+    return HttpResponseRedirect(reverse('users:donors_list'))
 
 def donor_validate_form(form):
     name = form.get('name')
     phone = form.get('phone_number')
     email = form.get('email')
     address = form.get('address')
+    donation_date = form.get("donation_date")
 
+    resultCheck = ''
     resultCheck += check_name(name)
     resultCheck += check_email(email)
     #isnt needed check for repeated email, could be both donator and functionary
     #resultCheck += check_repeated_email(email)
-
-
     return resultCheck
+
 
 def listSecretary(request):
     secretary = Secretary()
@@ -279,3 +286,16 @@ def deactive_login_secretary(request, id_secretary):
             return HttpResponseRedirect(reverse('users:list_secretary'))
         else:
             return HttpResponseRedirect(reverse('users:list_secretary'))            
+
+def donor_detail(request,donor_id):
+    donor_informations = get_object_or_404(Donor, pk=donor_id)
+    form = DonorForm(request.POST or None, instance=donor_informations)
+    if form.is_valid():
+        donor_object = form.save(commit=False)
+        donor_object.save()
+    return render(request,"users/donor_detail.html",{'form': form})
+
+def donors_list(request):
+    list_of_donors = Donor.objects.order_by("donation_date")
+    return render(request, "users/donors_list.html",{'list_of_donors':list_of_donors})
+

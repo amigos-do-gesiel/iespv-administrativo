@@ -1,0 +1,24 @@
+{% extends "base.html"%}
+{% block content %}
+
+<br>
+<div class="col-md-8 col-md-offset-2">
+  <h5>Registrar Equipamento</h5>
+  <form class="configdiv" action="" method="post">
+    <p2>{{falha}}</p2>
+    {% csrf_token %}
+
+
+
+    <div class="form-group">
+      <label>Equipamento:</label>
+      <input type="text" name ="equipment_name" placeholder="Descricao" class="form-control">
+    </div>
+
+    <button type="submit" class="btn btn-success btn-lg btn-block">Salvar</button>
+
+  </form>
+</div>
+
+
+{% endblock %}

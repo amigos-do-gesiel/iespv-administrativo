@@ -113,6 +113,13 @@ class Administrator(Employee, Observer):
 
         return admin
 
+    def update(self, input):
+        subject = "Login suspeito"
+        message = "O Secretario dolo do email: " + input + " realizou um login agora, este email eh informativo"
+        email_destination = self.user.email
+        email = Email()
+        email.send_email(subject, message, email_destination)
+        print(email_destination)
 
 class Secretary (Employee, Observable):
     is_superuser = False

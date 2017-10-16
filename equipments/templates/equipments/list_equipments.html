@@ -11,6 +11,7 @@
     <tr>
       <th>id</th>
       <th>Nome</th>
+      <th>Operação</th>
     </tr>
   </thead>
   <tbody>
@@ -18,6 +19,7 @@
     <tr>
       <th scope="row">{{equipment.id}}</th>
       <td>{{ equipment.equipment_name }}</td>
+      <td><a class="btn btn-warning" href="{% url 'equipments:broke_equipment' equipment.id %}">Quebrar<a></td>
     </tr>
 	{% endfor %}
   </tbody>
@@ -32,6 +34,7 @@
     <tr>
       <th>id</th>
       <th>Nome</th>
+      <th>Parceiro</th>
       <th>Operação</th>
     </tr>
   </thead>
@@ -40,6 +43,7 @@
     <tr>
       <th scope="row">{{equipment.id}}</th>
       <td>{{ equipment.equipment_name }}</td>
+      <td>{{ equipment.state.partner }}</td>
       <td><a class="btn btn-warning" href="{% url 'equipments:take_back_equipment' equipment.id %}">Pegar de volta<a></td>
     </tr>
 	{% endfor %}
@@ -55,6 +59,7 @@
     <tr>
       <th>id</th>
       <th>Nome</th>
+      <th>Operação</th>
     </tr>
   </thead>
   <tbody>
@@ -62,6 +67,7 @@
     <tr>
       <th scope="row">{{equipment.id}}</th>
       <td>{{ equipment.equipment_name }}</td>
+      <td><a class="btn btn-success" href="{% url 'equipments:fix_equipment' equipment.id %}">Concertar Equipamento<a></td>
     </tr>
 	{% endfor %}
   </tbody>

@@ -94,3 +94,17 @@ def take_back_equipment(request,id_equipment):
     equipment.take_back_equipment()
     equipment.save()
     return HttpResponseRedirect(reverse('equipments:list_equipment'))
+
+def broke_equipment(request,id_equipment):
+    equipment = Equipment.objects.get(id=id_equipment)
+    equipment.disable_equipment()
+    equipment.save()
+    return HttpResponseRedirect(reverse('equipments:list_equipment'))
+
+def fix_equipment(request,id_equipment):
+    equipment = Equipment.objects.get(id=id_equipment)
+    equipment.fix_equipment()
+    equipment.save()
+    return HttpResponseRedirect(reverse('equipments:list_equipment'))
+
+

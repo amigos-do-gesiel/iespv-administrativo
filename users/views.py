@@ -177,12 +177,19 @@ def make_login(request):
     is_logged = False
 
     if user is not None:
-        if user.secretary.activate == True:
+        secretary = Secretary.objects.get(user=user)
+        if secretary is not None:
+            if secretary.activate == True:
+                login(request, user)
+                message = "Logged"
+                is_logged = True
+                secretary.date_time_release()
+            else:
+                message = "login bloqueado"  
+        else:
             login(request, user)
             message = "Logged"
-            is_logged = True
-        else:
-            message = "login bloqueado"    
+            is_logged = True     
     else:
         message = "Incorrect user"
 

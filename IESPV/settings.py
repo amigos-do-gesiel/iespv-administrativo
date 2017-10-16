@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'pytest',
     'partners.apps.PartnersConfig',
+    'core.apps.CoreConfig',
 ]
 
 MIDDLEWARE_CLASSES = [

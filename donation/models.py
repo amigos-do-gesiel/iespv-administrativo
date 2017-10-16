@@ -1,7 +1,7 @@
 from django.db import models
 from users.models import Employee, Donor, Secretary, Administrator
 from django.contrib.auth.models import AbstractUser, User
-#from equipment.models import UnavalibleEquipment, BorrowedEquipment, AvalibleEquipment
+from equipments.models import Equipment
 
 # Create your models here.
 
@@ -38,8 +38,7 @@ class CashDonation(DonationStrategy):
         return self.donation_subject
 
 class EquipmentDonation(DonationStrategy):
-    #donation_subject = models.OneToManyField(Equipment)
-    donation_subject = models.CharField(max_length=140, blank=True)
+    donation_subject = models.ForeignKey(Equipment)
 
     def build_donation(self, equipment, donor, employee, observations, collection_date):
         donation_strategy = EquipmentDonation(donation_subject = equipment)
@@ -52,4 +51,4 @@ class EquipmentDonation(DonationStrategy):
         new_donation.save()
 
     def get_value():
-        return self.donation_subject #this will change to equipment.description
+        return self.donation_subject.equipment_name

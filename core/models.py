@@ -22,4 +22,13 @@ class Observable:
     def notify_observers(self, input):
         pass        
 
-
+class Email(object):
+	
+	def send_email(self, subject, message, email_destination):
+		send_mail(
+               subject,
+               message,
+               EMAIL_HOST_USER,
+               [email_destination],
+               fail_silently=False,
+        )

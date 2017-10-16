@@ -15,24 +15,24 @@ def register_donation(request):
         return render(request, "form_donation.html", {'donors': donors, 'equipments': equipments})
     else:
         form = request.POST
-        donation_type = form.get('donation_type', None)
-
         donor_id = form.get('donor', None)
-        equipment_id = form.get('equipment', None)
-        print(equipment_id)
+        if donor_id == '#':
+            return render(request, 'form_donation.html', {'falha': 'É necessário selecionar um doador',
+                                                'donors':donors, 'equipments':equipments})
+            #return render(  request, 'userRegister/registerClient.html', {'falha': resultCheck})
 
-        value = form.get('value')
-
+        donation_type = form.get('donation_type', None)
         donor = Donor.objects.filter(id = donor_id)[0]
-        equipment = Equipment.objects.filter(id = equipment_id)[0]
-
         observations = form.get('observations')
         collection_date = form.get('collection_date')
 
         if donation_type == 'donation_equip':
+            equipment_id = form.get('equipment', None)
+            equipment = Equipment.objects.filter(id = equipment_id)[0]
             new_eqp_donation = EquipmentDonation()
             new_eqp_donation.build_donation(equipment, donor, employee, observations, collection_date)
         else:
+            value = form.get('value')
             new_cash_donation = CashDonation()
             new_cash_donation.build_donation(value, donor, employee, observations, collection_date)
 

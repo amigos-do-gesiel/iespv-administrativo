@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render
 from .models import Donation, EquipmentDonation, CashDonation
 from django.http import HttpResponseRedirect

@@ -5,6 +5,9 @@ from django.http import HttpResponseRedirect
 from users.models import Employee, Donor, Secretary, Administrator
 from equipments.models import Equipment
 from django.core.urlresolvers import reverse
+import json
+from django_average.statistic_time.models import StatisticDaily, StatisticMonthly, StatisticYearly
+from django_average.data_statistic.models import DataJson, DataXml
 
 # authencate later!!!
 def register_donation(request):
@@ -49,3 +52,15 @@ def delete_donation(request, donation_id):
     donation = Donation.objects.filter(id=donation_id)
     donation.delete()
     return HttpResponseRedirect(reverse('donation:list_donations'))
+
+def donation_chart(request):
+
+    year = StatisticYearly.objects.get(year_number=2017)
+
+    data_json_convert = DataJson()
+
+    data_json = year.convert_data(data_json_convert) 
+
+    context = {'data_json' : data_json}
+
+    return render(request, "donation_chart.html",context)

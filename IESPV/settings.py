@@ -54,6 +54,9 @@ INSTALLED_APPS = [
     'equipments',
     'partners.apps.PartnersConfig',
     'core.apps.CoreConfig',
+    'django_average.statistic_time',
+    'django_average.data_statistic',
+    'django_average.observer',
 ]
 
 MIDDLEWARE_CLASSES = [

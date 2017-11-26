@@ -8,3 +8,4 @@ pytest-cov
 factory_boy
 unipath
 django-polymorphic
+django_average

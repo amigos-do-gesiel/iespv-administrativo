@@ -2,6 +2,8 @@ from django.db import models
 from users.models import Employee, Donor, Secretary, Administrator
 from django.contrib.auth.models import AbstractUser, User
 from equipments.models import Equipment
+from django_average.statistic_time.models import StatisticDaily, StatisticMonthly, StatisticYearly
+from django_average.data_statistic.models import DataJson, DataXml
 
 # Create your models here.
 
@@ -27,6 +29,7 @@ class CashDonation(DonationStrategy):
     def build_donation(self, value, donor, employee, observations, collection_date):
         donation_strategy = CashDonation(donation_subject = value)
         donation_strategy.save()
+        self.update_donation_stats(value)
         new_donation = Donation(donor = donor,
                                 employee = employee,
                                 strategy = donation_strategy,
@@ -36,6 +39,13 @@ class CashDonation(DonationStrategy):
 
     def get_value():
         return self.donation_subject
+
+    def update_donation_stats(self,value):
+        day = StatisticDaily()
+        day.save()
+        day.start()
+        day.update(value)
+        
 
 class EquipmentDonation(DonationStrategy):
     donation_subject = models.ForeignKey(Equipment)

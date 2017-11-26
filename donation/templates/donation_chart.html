@@ -1,0 +1,51 @@
+
+Grafico de Doações
+
+
+<!DOCTYPE html>
+<head>
+  {% load static %}
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+
+  <script type="text/javascript">
+	google.charts.load('current', {'packages':['corechart']});
+	google.charts.setOnLoadCallback(drawChart);
+
+	var json_data = {{data_json|safe}}
+	
+	function drawChart() {
+
+	var result = [];
+
+	for(var i in json_data){
+        result.push([i, json_data [i]]);
+	}
+
+	var data = new google.visualization.DataTable();
+	data.addColumn('string', 'Topping');
+	data.addColumn('number', 'Slices');
+	data.addRows(result);
+	
+
+	var options = {
+	title: 'Grafico',
+	hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+	vAxis: {minValue: 0}
+	};
+
+	var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+	chart.draw(data, options);
+	}
+  </script>
+
+
+
+  <title>Site</title>
+</head>
+
+<body>
+  <div id="chart_div" style="width: 100%; height: 500px;"></div>
+</body>
+</html>

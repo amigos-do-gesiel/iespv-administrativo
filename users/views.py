@@ -207,7 +207,7 @@ def attendant_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('users:login'))
 
-#@login_required
+#@_required
 def donor_registration(request):
 
     try:

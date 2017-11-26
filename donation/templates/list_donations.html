@@ -6,16 +6,15 @@
     <div class="panel panel-default">
       <table class="table table-hover">
         <tr>
-            <th>Doador</th> <th>Doacao</th> <th>Observações</th>
-            <th>Data de coleta</th> <th>Editar</th>
+            <th>Doador</th> <th>Observações</th>
+            <th>Data de coleta</th> <th>Deletar</th>
         </tr>
         {% for donation in donations %}
         <tr>
           <td> {{ donation.donor.name }} </td>
-          <td> {{ donation.strategy.get_value }} </td>
           <td> {{ donation.observations }} </td>
           <td> {{ donation.collection_date|date:'d/m/y' }} </td>
-          <td> <a href="#">----</a> </td>
+          <td> <a href="{% url 'donation:delete_donation' donation.id %}">X</a> </td>
         </tr>
         {% endfor %}
       </table>

@@ -179,7 +179,10 @@ def make_login(request):
     is_logged = False
 
     if user is not None:
-        secretary = Secretary.objects.get(user=user)
+        try:
+            secretary = Secretary.objects.get(user=user)
+        except ObjectDoesNotExist:
+            secretary = None
         if secretary is not None:
             if secretary.activate == True:
                 login(request, user)
@@ -187,11 +190,11 @@ def make_login(request):
                 is_logged = True
                 secretary.date_time_release()
             else:
-                message = "login bloqueado"  
+                message = "login bloqueado"
         else:
             login(request, user)
             message = "Logged"
-            is_logged = True     
+            is_logged = True
     else:
         message = "Incorrect user"
 
@@ -285,7 +288,7 @@ def deactive_login_secretary(request, id_secretary):
         if release == True:
             return HttpResponseRedirect(reverse('users:list_secretary'))
         else:
-            return HttpResponseRedirect(reverse('users:list_secretary'))            
+            return HttpResponseRedirect(reverse('users:list_secretary'))
 
 def donor_detail(request,donor_id):
     donor_informations = get_object_or_404(Donor, pk=donor_id)
@@ -298,4 +301,3 @@ def donor_detail(request,donor_id):
 def donors_list(request):
     list_of_donors = Donor.objects.order_by("donation_date")
     return render(request, "users/donors_list.html",{'list_of_donors':list_of_donors})
-

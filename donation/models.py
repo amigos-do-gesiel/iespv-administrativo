@@ -29,7 +29,7 @@ class CashDonation(DonationStrategy):
     def build_donation(self, value, donor, employee, observations, collection_date):
         donation_strategy = CashDonation(donation_subject = value)
         donation_strategy.save()
-        self.update_donation_stats(value)
+        self.update_donation_stats(int(value))
         new_donation = Donation(donor = donor,
                                 employee = employee,
                                 strategy = donation_strategy,

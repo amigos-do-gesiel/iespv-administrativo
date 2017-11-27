@@ -53,13 +53,28 @@ def delete_donation(request, donation_id):
     donation.delete()
     return HttpResponseRedirect(reverse('donation:list_donations'))
 
-def donation_chart(request):
+def donation_chart_year(request,year):
 
-    year = StatisticYearly.objects.get(year_number=2017)
+    year = StatisticYearly.objects.get(year_number=year)
 
     data_json_convert = DataJson()
 
-    data_json = year.convert_data(data_json_convert) 
+    data_json = data_json_convert.convert_data(year.get_months())
+
+    #data_json = year.convert_data(data_json_convert) 
+
+    context = {'data_json' : data_json}
+
+    return render(request, "donation_chart.html",context)
+
+
+def donation_chart_month(request, month_number, year):
+
+    month = StatisticMonthly.objects.get(year=StatisticYearly.objects.get(year_number=year), month = month_number)
+
+    data_json_convert = DataJson()
+
+    data_json = month.convert_data(data_json_convert) 
 
     context = {'data_json' : data_json}
 
